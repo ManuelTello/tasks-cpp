@@ -1,109 +1,111 @@
 #include <iostream>
 #include <string>
 #include <vector>
-//#include <chrono>
 
 using namespace std;
 
-struct DateStore 
-{
-    string created;
-    string finish;
-};
-
 struct Task
 {
-    unsigned short id;
+    int id;
     string description;
     string name;
-    short isalive;
-    DateStore dates;
+    bool isalive;
 };
 
-Task addNewTask(); 
-void printMenu (), deleteTask(), updateDatabase();
+Task addNewTask(int id_, string desc_, string name_, bool isalive_); 
+void printMenu (vector<string> menu); 
+void deleteTask(short id_); 
+void updateDatabase(int id_, string desc_, string name_, bool isalive_);
+void addMenu(vector<string> messages, string mapto[]);
 
-vector <Task> database = {};
 Task payload;
+vector <Task> database = {};
+vector <string> opciones_menu = { "1- Add new task", "2- Remove task", "3- Update task", "4- List my tasks", "5- Exit" };
+vector <string> new_menu = { "Nuevo id: ","Description: ","Task title: ","Task state: " };
+string task_in[4];
 string user_input;
+const bool ALIVE = true;
 
 int main()
 {   
     database.clear();
 
-    while(true)
+    while(ALIVE)
     {
-        printMenu();
+        printMenu(opciones_menu);
 
-        if(user_input == "1")
+        switch(stoi(user_input))
         {
-
+            case 1:
+                addMenu(new_menu, task_in);
+                addNewTask(stoi(task_in[0]), task_in[1], task_in[2], stoi(task_in[3]));
+                cout << endl << "New task added to the database ..." << endl;
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                for()
+                break;
+            case 5:
+                cout << endl << "Exiting program ...";
+                return 0;
+            default:
+                cout << "Input a valid option ...";
+                continue;
         }
-        else if (user_input == "2")
-        {
-
-        }
-        else if (user_input == "3")
-        {
-
-        }
-        else if(user_input == "4")
-        {
-            cout << endl << "Exiting program ...";
-            break;
-        }
-
-        database.push_back(payload);
     }
 
     return 0;
 }
 
 
-void printMenu()
+void printMenu(vector<string> menu)
 {
-    vector <string> opciones = 
+    for(int i = 0; i < menu.size(); i++)
     {
-        "1- Add new task",
-        "2- Remove task",
-        "3- Update task",
-        "4- Exit"
-    };
-
-    for(int i = 0; i < opciones.size(); i++)
-    {
-        cout << endl << opciones[i] << endl;
+        cout << endl << menu[i] << endl;
     }
-    
     cout << endl << "-> ";
     cin >> user_input;  
 }
 
-Task addNewTask (short id_, string desc_, string name_, short isalive_, string created_, string finish_)
+void addMenu (vector<string> messages, string mapto[])
+{
+    for(int i = 0; i < messages.size(); i++)
+    {
+        cout << messages[i];
+        cin >> mapto[i];
+        cout << endl;
+    }
+}
+
+Task addNewTask (int id_, string desc_, string name_, bool isalive_)
 {
     Task new_task;
     new_task.id = id_;
     new_task.description = desc_;
     new_task.name = name_;
     new_task.isalive = isalive_;
-    new_task.dates.created = created_;
-    new_task.dates.finish = finish_;
 
     return new_task;
 }
 
-void deleteTask (short id_)
+
+
+void deleteTask (int id_)
 {
     for(short i = 0; i < database.size(); i++)
     {
         if(database[i].id == id_)
         {
-            database.erase(i);
+            database.erase(database.begin()+i-1);
         }
     }
 }
 
-void updateDatabase ()
+void updateDatabase (short id_, string desc_, string name_, bool isalive_)
 {
 
 }
